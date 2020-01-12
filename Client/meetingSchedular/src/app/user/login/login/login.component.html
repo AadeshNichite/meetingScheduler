@@ -1,0 +1,30 @@
+<!-- Toolbar -->
+<form>
+<div class="toolbar" role="banner">
+    <span>Meeting Schedular</span>
+      <div class="spacer"></div>
+  </div>
+  
+  <div class="content" role="main">
+  
+    <!-- Highlight Card -->
+    <div class="card highlight-card card-small">
+  
+      <span>Meeting Schedular app is running!</span>
+  
+    </div>
+  
+    <!-- Resources -->
+    <h2>Login</h2> 
+  
+    <input type="text" class="email" name="email" [(ngModel)]="email" placeholder="Enter Email"><br>
+  
+    <input type="password" class="password" name="password" [(ngModel)]="password" placeholder="Enter Password"><br>
+
+    <button (click)="submitData(email,password)" class="loginButton">Login</button><br>
+    
+    <p class="registrationLink">Not have an account ? <a href="register" class="registrationLink" routerLink="/register">Registration</a></p>
+
+  </div>
+</form>
+  

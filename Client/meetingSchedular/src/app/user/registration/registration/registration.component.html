@@ -1,0 +1,31 @@
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+    <span>Meeting Schedular</span>
+      <div class="spacer"></div>
+  </div>
+  
+  <div class="content" role="main">
+  
+    <!-- Highlight Card -->
+    <div class="card highlight-card card-small">
+  
+      <span>Meeting Schedular app is running!</span>
+  
+    </div>
+  
+    <!-- Resources -->
+    <h2>Registration</h2> 
+
+
+    <input type="text" class="username" name="username" [(ngModel)]="username" placeholder="Enter Username"><br>
+
+    <input type="text" class="email" name="email" [(ngModel)]="email" placeholder="Enter Email"><br>
+  
+    <input type="password" class="password" name="password" [(ngModel)]="password" placeholder="Enter password"><br>
+
+    <input type="password" class="reEnteredPassword" name="reEnteredPassword" [(ngModel)]="reEnteredPassword" placeholder="Re-enter Password"><br>
+  
+  
+    <button (click)="registerData(username,email,password,reEnteredPassword)" class="registrationButton">Register</button><br>
+
+  </div>
