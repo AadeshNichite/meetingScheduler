@@ -27,7 +27,7 @@ router.get('/',auth, async (req,res) => {
 router.post(
     '/', 
     [
-    check('email','Please Enter a valid username').not().isEmpty(),
+    check('email','Please Enter a valid name').not().isEmpty(),
     check('password','Password is required').exists(),
     ],
     async(req, res) => {
@@ -71,7 +71,7 @@ router.post(
             {expiresIn: 3600},
             (err,token) =>{
                 if(err) throw  err;
-                res.json({token})
+                res.json(token)
             } 
         )
 

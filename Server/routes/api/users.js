@@ -12,7 +12,7 @@ const config =require('config');
 router.post(
     '/',
     [
-    check('username','Please Enter a username').not().isEmpty(),
+    check('name','Please Enter a name').not().isEmpty(),
     check('email', 'Email is required').not().isEmpty(),
     check('password','Please enter a password with min length 6 character').isLength({min: 6})
     ],
@@ -21,7 +21,7 @@ router.post(
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()});
     }    
-    const{username, email, password}=req.body;
+    const{name, email, password}=req.body;
 
     try{
 
@@ -33,7 +33,7 @@ router.post(
     }
 
     user = new Profile({
-        username,
+        name,
         email,
         password
     })
@@ -60,7 +60,7 @@ router.post(
             {expiresIn: 3600},
             (err,token) =>{
                 if(err) throw  err;
-                res.json({token})
+                res.json(token)
             } 
         )
 
