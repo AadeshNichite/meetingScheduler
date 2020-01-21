@@ -3,10 +3,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule,routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { AuthGuard } from './guard/auth.guard';
 import { HeaderComponent } from './dashboard/header/header.component';
 import {FullCalendarModule} from '@fullcalendar/angular';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import * as $ from 'jquery';
+import { AuthInterceptor } from './guard/auth.interceptor';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -19,9 +23,19 @@ import {FullCalendarModule} from '@fullcalendar/angular';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    FullCalendarModule
+    FullCalendarModule,
+    NgbModule
   ],
-  providers: [AuthGuard],
+  providers: [
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass : AuthInterceptor,
+      multi:true
+
+    },
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

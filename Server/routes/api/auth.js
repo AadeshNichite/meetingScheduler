@@ -11,6 +11,7 @@ const Profile = require('../../models/profile');
 //@desc     Find profile using Token value
 //@access   Public
 router.get('/',auth, async (req,res) => {
+    // console.log(req,res);
     try{
         const user = await Profile.findById(req.user.id).select('-password');
         res.json(user);
@@ -71,15 +72,18 @@ router.post(
             {expiresIn: 3600},
             (err,token) =>{
                 if(err) throw  err;
-                res.json(token)
+                res.json({token,error:false})
             } 
         )
 
     }catch(err){
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({message:'Server Error',error:true});
     }
 
 });
+
+
+
 
 module.exports = router;

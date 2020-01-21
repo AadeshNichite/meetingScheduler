@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-registration',
@@ -30,13 +31,17 @@ export class RegistrationComponent implements OnInit {
           this.router.navigate(['/dashboard']);
 
         },error  => {
-            alert(error.error.errors[0].msg)
+            $('.modal-body').text(error.error.errors[0].msg);
+            $('.modal').show();
         });
   
       }
       else{
-        alert("Fill all the fields..!");
+        $('.modal').show();
       }
+  }
+  closeModal(){
+    $('.modal').hide();
   }
 
 }
