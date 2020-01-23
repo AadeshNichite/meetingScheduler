@@ -11,6 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import * as $ from 'jquery';
 import { AuthInterceptor } from './guard/auth.interceptor';
 import { UserService } from './services/user.service';
+import { MeetingService } from './services/meeting.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { UserService } from './services/user.service';
       multi:true
 
     },
-    UserService
+    UserService,
+    MeetingService
   ],
   bootstrap: [AppComponent]
 })

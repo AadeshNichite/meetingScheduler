@@ -2,12 +2,13 @@
   <full-calendar 
   (dayRender)="dayRender($event)"
   [events]= "calendarEvents" 
-  [plugins]="calendarPlugins"></full-calendar>
+  [plugins]="calendarPlugins"
+  (eventClick) = "eventFunc($event)" ></full-calendar>
 </div>
 
 
 <div class="modal" tabindex="-1" role="dialog" id="updateEvent">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Events</h5>
@@ -16,13 +17,20 @@
         </button>
       </div>
       <div class="modal-body">
+        <form>
         <p>Events are as follows:- </p>
-        
+        <div class="row" *ngFor="let value of this.values">
+          <div class="col-2">{{value.title}}</div>
+          <div class="col-3">{{value.start}}</div>
+          <div class="col-3">{{value.end}}</div>
+          <div class="col-2"><button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="updateModal(value.id)">update</button></div>
+          <div class="col-2"><button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="deleteMeeting(value.id)">Del</button></div>
+        </div>
+        <hr>
+      </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()" >Add Events</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()" >Update Events</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()" >Delete Events</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="addmodal()" >Add</button>
       </div>
     </div>
   </div>
@@ -30,7 +38,7 @@
 
 
 <div class="modal" tabindex="-1" role="dialog" id="addEvent">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Events</h5>
@@ -39,13 +47,77 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Add Events :-</p>
+        <form>
+            <div class="row-4">
+              <label for="titleForUpdateMeeting">Title</label>
+              <input type="text" class="form-control" id="titleForUpdateMeeting" [(ngModel)]="title" [ngModelOptions]="{standalone: true}">
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <label for="startTime">Start</label>
+                <input type="time" class="form-control" id="startTime" [(ngModel)]="start" [ngModelOptions]="{standalone: true}">
+              </div>
+              <div class="col">
+                <label for="endTime">End</label>
+                <input type="time" class="form-control" id="endTime" [(ngModel)]="endTime" [ngModelOptions]="{standalone: true}" >
+              </div>
+            </div>
+        </form>
         
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()" >Add Events</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()" >Update Events</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="addEvent(title,start,endTime)" >Add</button>
       </div>
     </div>
   </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="updateMeetingBody">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Events</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="row" *ngFor="let value of this.values">
+              <div class="col-3">{{value.title}}</div>
+              <div class="col-3">{{value.start}}</div>
+              <div class="col-3">{{value.end}}</div>
+            </div>
+          </div>
+          <div class="row-4" *ngFor="let value of this.values">
+            <input type="text" class="form-control" value={{value.id}} [(ngModel)]="meetingNumber" [ngModelOptions]="{standalone: true}" hidden>
+              <div class="row">
+                <label for="titleForUpdateMeeting">Title</label>
+                <input type="text" class="form-control" value="{{value.title}}" [(ngModel)]="title" [ngModelOptions]="{standalone: true}">
+              </div>
+
+              <div class="row">
+                <label for="titleForUpdateMeeting">start Time</label>
+                <input type="time" class="form-control" value="{{value.start}}" [(ngModel)]="start" [ngModelOptions]="{standalone: true}">
+              </div>
+
+              <div class="row">
+                <label for="titleForUpdateMeeting">End Time</label>
+                <input type="time" class="form-control" value="{{value.end}}" [(ngModel)]="endTime" [ngModelOptions]="{standalone: true}">
+              </div>
+       
+              <div class="modal-footer">
+              <div class="col-2">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="updateModalData(value.id,title,start,endTime)">update</button>
+              </div>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 </div>

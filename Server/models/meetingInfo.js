@@ -11,10 +11,6 @@ const MeetingDataSchema = new mongoose.Schema({
             type: String,
             required:true
         },
-        date: {
-            type: String,
-            required:true
-        },
         strating: {
             type : String,
             required : true
@@ -22,12 +18,7 @@ const MeetingDataSchema = new mongoose.Schema({
         endTime:{
             type : String,
             required : true
-        }, 
-        meetingPeople:[{
-            type: mongoose.Schema.Types.ObjectId,
-            ref:'profile',
-            required : true
-        }]
+        }
     }]
 })
 
@@ -60,4 +51,4 @@ const MeetingDataSchema = new mongoose.Schema({
 
 
 
-module.exports = MeetingData = mongoose.model('meetingData', MeetingDataSchema );
+module.exports = MeetingData = new mongoose.model('meetingData', MeetingDataSchema );
