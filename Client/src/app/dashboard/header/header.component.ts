@@ -11,9 +11,11 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
+ 
   }
-  logout(){
 
+  // logout method which clears the session value of token and route to the login page
+  logout(){
     sessionStorage.clear();
     this.router.navigate(['/']);
   }

@@ -21,12 +21,9 @@ export class CalenderComponent implements OnInit {
   constructor(private router: Router,private http : HttpClient,
   private _userService: UserService,private _meetingService : MeetingService) {}
 
+  // on initialization of page the meeting data of the logged user is get using api call.
   ngOnInit() {
-    this._userService.getUserData()
-    .subscribe(data=>{
-      console.log(data);
-    });
-
+   
     this._meetingService.getMeetingData()
     .subscribe(data => {
       let arr=[]
@@ -42,6 +39,7 @@ export class CalenderComponent implements OnInit {
     })
   }
 
+  // when user click on to the date that event is get by this function and on the basis of the day meeting it will render the modal which is need to show.
   dayRender(args){
     let cell:HTMLElement = args.el;
     cell.onclick = (ev:MouseEvent)=>{
@@ -61,17 +59,23 @@ export class CalenderComponent implements OnInit {
       }
     }
   }
+
+  // This method is called to close the modal.
   closeModal(){
     $('#addEvent').hide();
     $('#updateEvent').hide();
     $('#updateMeetingBody').hide();
   }
-  addmodal(){
+
+  // This method is called to open the modal for add meeting modal. 
+  opneAddMeetingmodal(){
     $('#updateEvent').hide();
     $('#addEvent').show();
     $('#updateMeetingBody').hide();
   }
-  updateModal(meetingNumber){
+
+  // This method is called to open the modal for update meeting modal which shows the all meetings and we have to choose one to update. 
+  openUpdateMeetingModal(meetingNumber){
     $('#updateEvent').hide();
     $('#updateMeetingBody').show();
     this.eventToUpdate;
@@ -80,7 +84,8 @@ export class CalenderComponent implements OnInit {
     })
   }
 
-  updateModalData(meetingNumber,title,start,end){
+  // This method is called to open the modal for update the selected meeting data. Also it takes the the new data and send.
+  getUpdateMeetingData(meetingNumber,title,start,end){
     $('#addEvent').hide();
     $('#updateEvent').hide();
     $('#updateMeetingBody').show();
@@ -96,7 +101,7 @@ export class CalenderComponent implements OnInit {
     );  
   }
 
-  addEvent(meetingTitle,start,end){
+  getAddMeetingData(meetingTitle,start,end){
     if(meetingTitle && start && end){
       let strating = this.stringToDateConvert(start);
       let endTime = this.stringToDateConvert(end);
