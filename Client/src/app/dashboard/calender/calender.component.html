@@ -52,7 +52,6 @@
               <label for="titleForUpdateMeeting">Title</label>
               <input type="text" class="form-control" id="titleForUpdateMeeting" [(ngModel)]="title" [ngModelOptions]="{standalone: true}">
             </div>
-
             <div class="row">
               <div class="col">
                 <label for="startTime">Start</label>
@@ -64,7 +63,6 @@
               </div>
             </div>
         </form>
-        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="addEvent(title,start,endTime)" >Add</button>
@@ -79,7 +77,8 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Events</h5>
+        <h5 class="modal-title">Event</h5>
+        <!-- <div class="col-3">{{this.updateModal_meeting.title}}</div> -->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -87,17 +86,17 @@
       <div class="modal-body">
         <form>
           <div class="row">
-            <div class="row" *ngFor="let value of this.values">
+            <div class="row" *ngFor="let value of eventToUpdate">
               <div class="col-3">{{value.title}}</div>
               <div class="col-3">{{value.start}}</div>
               <div class="col-3">{{value.end}}</div>
             </div>
           </div>
-          <div class="row-4" *ngFor="let value of this.values">
+          <div class="row-4" *ngFor="let value of eventToUpdate">
             <input type="text" class="form-control" value={{value.id}} [(ngModel)]="meetingNumber" [ngModelOptions]="{standalone: true}" hidden>
               <div class="row">
                 <label for="titleForUpdateMeeting">Title</label>
-                <input type="text" class="form-control" value="{{value.title}}" [(ngModel)]="title" [ngModelOptions]="{standalone: true}">
+                <input type="text" class="form-control" value="{{value.title}}" [(ngModel)]="title" [ngModelOptions]="{standalone: true}" placeholder="{{value.title}}">
               </div>
 
               <div class="row">

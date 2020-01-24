@@ -22,7 +22,7 @@ export class MeetingService {
 
   private addMeetingData_url: string = "http://localhost:8000/api/meeting/add";
 
-  private deleteMeetingData_url: string = "http://localhost:8000/api/meeting/";
+  private deleteMeetingData_url: string = "http://localhost:8000/api/meeting/meeting";
 
   private updateMeetingData_url: string = "http://localhost:8000/api/meeting/updateMeeting";
 
@@ -40,7 +40,8 @@ export class MeetingService {
 
   deleteMeetingData({meetingNumber}){
     
-    return this.http.delete<any>(this.deleteMeetingData_url);
+    // const url=`$http://localhost:8000/api/meeting/meeting`;
+    return this.http.post<any>(this.deleteMeetingData_url,{"meetingNumber":meetingNumber});
 
   }
 
