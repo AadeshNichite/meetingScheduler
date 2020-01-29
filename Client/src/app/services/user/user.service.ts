@@ -16,13 +16,14 @@ interface loginData {
 
 }
 
-
 @Injectable()
 export class UserService {
 
   private getUserData_url : string = "http://localhost:8000/api/auth/";
 
   private checkLogin_url : string = "http://localhost:8000/api/auth";
+
+  private addUserData_url : string = "http://localhost:8000/api/users";
   
 
   constructor(private http:HttpClient) { }
@@ -39,8 +40,10 @@ export class UserService {
 
   }
 
+  addUserData(name,email,password ){
 
+    return this.http.post<any>(this.addUserData_url,{"name":name,"email":email,"password":password});
 
-   
+  }
 
 }

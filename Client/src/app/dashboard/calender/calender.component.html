@@ -2,8 +2,7 @@
   <full-calendar 
     (dayRender)="dayRender($event)"
     [events]= "calendarEvents" 
-    [plugins]="calendarPlugins"
-    (eventClick) = "eventFunc($event)" >
+    [plugins]="calendarPlugins">
   </full-calendar>
 </div>
 
@@ -31,7 +30,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="opneAddMeetingmodal()" >Add</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="opneAddMeetingmodal()" >Add Meeting</button>
       </div>
     </div>
   </div>
@@ -84,7 +83,7 @@
       </div>
       <div class="modal-body">
       <form>
-        <div class="row">
+        <div class="row-4">
           <div class="row" *ngFor="let value of eventToUpdate">
             <div class="col-3">{{value.title}}</div>
             <div class="col-3">{{value.start}}</div>
@@ -93,18 +92,19 @@
         </div>
         <div class="row-4" *ngFor="let value of eventToUpdate">
           <input type="text" class="form-control" value={{value.id}} [(ngModel)]="meetingNumber" [ngModelOptions]="{standalone: true}" hidden>
-            <div class="row">
+            <div class="row-8">
               <label for="titleForUpdateMeeting">Title</label>
               <input type="text" class="form-control" value="{{value.title}}" [(ngModel)]="title" [ngModelOptions]="{standalone: true}" placeholder="{{value.title}}">
             </div>
-            <div class="row">
-              <label for="titleForUpdateMeeting">start Time</label>
-              <input type="time" class="form-control" value="{{value.start}}" [(ngModel)]="start" [ngModelOptions]="{standalone: true}">
+            <div class="col">
+                <label for="titleForUpdateMeeting">start Time</label>
+                <input type="time" class="form-control" value="{{value.start}}" [(ngModel)]="start" [ngModelOptions]="{standalone: true}">
             </div>
-            <div class="row">
+            <div class="col">
               <label for="titleForUpdateMeeting">End Time</label>
               <input type="time" class="form-control" value="{{value.end}}" [(ngModel)]="endTime" [ngModelOptions]="{standalone: true}">
             </div>
+            <hr>
             <div class="modal-footer">
               <div class="col-2">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="getUpdateMeetingData(value.id,title,start,endTime)">update</button>

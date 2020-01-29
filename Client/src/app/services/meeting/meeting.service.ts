@@ -39,8 +39,7 @@ export class MeetingService {
   }
 
   deleteMeetingData({meetingNumber}){
-    
-    // const url=`$http://localhost:8000/api/meeting/meeting`;
+
     return this.http.post<any>(this.deleteMeetingData_url,{"meetingNumber":meetingNumber});
 
   }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'; 
+import { UserService } from 'src/app/services/user/user.service';
 import * as $ from 'jquery';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -18,36 +18,29 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,private http : HttpClient,private _userService: UserService) {
    }
 
-  ngOnInit() {
-    
+  ngOnInit() { 
   }
-
-checkLogin(email,password){
-
   
+  checkLogin(email,password){
+    console.log(email,password)
     if(email && password){
-
-
       this._userService.checkUserLogin({email,password})
       .subscribe(data=>{
-        console.log(data);
         let token = data['token'];
         sessionStorage.setItem('key',token);
         this.router.navigate(['/dashboard']);
       },error =>{
-
-        $('.modal-body').text(error.error.errors[0].msg);
-        $('.modal').show();
-       }
+          $('.modal-body').text(error.error.errors[0].msg);
+          $('.modal').show();
+        }
       );
-      }
-      else{
-        $('.modal').show();
-      }
-
-    } 
-    closeModal(){
-      $('.modal').hide();
     }
+    else{
+      $('.modal').show();
+    } 
+  } 
 
+  closeModal(){
+    $('.modal').hide();
+  }
 }

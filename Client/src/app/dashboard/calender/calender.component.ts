@@ -4,8 +4,8 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { Router } from '@angular/router';
 import * as $ from 'jquery';
 import { HttpClient } from '@angular/common/http';
-import { UserService } from 'src/app/services/user.service';
-import { MeetingService } from 'src/app/services/meeting.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { MeetingService } from 'src/app/services/meeting/meeting.service';
 
 @Component({
   selector: 'app-calender',
@@ -13,6 +13,8 @@ import { MeetingService } from 'src/app/services/meeting.service';
   styleUrls: ['./calender.component.css']
 })
 export class CalenderComponent implements OnInit {
+
+  //Global variables to store the data like clicked date,eventToUpdate,calenderEvents.
   calendarPlugins = [dayGridPlugin,interactionPlugin];
   calendarEvents : any[]= [];
   clickedDate;
@@ -23,7 +25,6 @@ export class CalenderComponent implements OnInit {
 
   // on initialization of page the meeting data of the logged user is get using api call.
   ngOnInit() {
-   
     this._meetingService.getMeetingData()
     .subscribe(data => {
       let arr=[]
@@ -48,6 +49,7 @@ export class CalenderComponent implements OnInit {
         return args.date.toDateString() == el.start.toDateString()
       })
       if(this.values.length>0){
+        document.getElementById
         $('#updateEvent').show();
         $('#addEvent').hide();
         $('#updateMeetingBody').hide();
@@ -89,18 +91,24 @@ export class CalenderComponent implements OnInit {
     $('#addEvent').hide();
     $('#updateEvent').hide();
     $('#updateMeetingBody').show();
-    let strating = this.stringToDateConvert(start);
-    let endTime = this.stringToDateConvert(end);
-    this._meetingService.updateMeetingData({meetingNumber,title,strating,endTime})
-    .subscribe(data=>{
-      location.reload()
-    },error =>{
-        $('.modal-body').text(error.error.errors[0].msg);
-        $('.modal').show();
-      }
-    );  
+    if(meetingNumber && title && start && end){
+      let strating = this.stringToDateConvert(start);
+      let endTime = this.stringToDateConvert(end);
+      this._meetingService.updateMeetingData({meetingNumber,title,strating,endTime})
+      .subscribe(data=>{
+        location.reload()
+      },error =>{
+          $('.modal-body').text(error.error.errors[0].msg);
+          $('.modal').show();
+        }
+      );  
+    }
+    else{
+      alert('Provide All Fields')
+    }
   }
 
+  //This function get the added data from a form of add component and then send back to sent backend to perform further operation.
   getAddMeetingData(meetingTitle,start,end){
     if(meetingTitle && start && end){
       let strating = this.stringToDateConvert(start);
@@ -110,15 +118,16 @@ export class CalenderComponent implements OnInit {
         location.reload()
       },error =>{
         $('.modal-body').text(error.error.errors[0].msg);
-        $('.modal').show();
         }
       );
     }
     else {
-      $('.modal').show();
+      alert('Provide All Fields')
+      
     }
   }
 
+  //Function to convert string format date into Date format
   stringToDateConvert(start){
     let clickedDateNumber = (this.clickedDate.getAttribute('data-date')+' '+start).toString();
     let dateString = clickedDateNumber,
@@ -130,6 +139,7 @@ export class CalenderComponent implements OnInit {
     return date;
   }
 
+  //Function to delete meeting
   deleteMeeting(meetingNumber){
     console.log(meetingNumber)
     this._meetingService.deleteMeetingData({meetingNumber})

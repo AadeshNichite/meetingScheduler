@@ -1,25 +1,47 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { RegistrationComponent } from './registration.component';
+import { AppComponent } from '../app.component';
+import { UserService } from '../services/user/user.service';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing'; 
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe('RegistrationComponent', () => {
-  let component: RegistrationComponent;
-  let fixture: ComponentFixture<RegistrationComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RegistrationComponent ]
+    let component : RegistrationComponent;
+    let fixure:ComponentFixture<RegistrationComponent>
+    let userService : UserService
+
+    beforeEach(()=>{
+        TestBed.configureTestingModule({
+            imports:[RouterTestingModule,HttpClientTestingModule,FormsModule],
+            providers:[UserService],
+            declarations:[RegistrationComponent]
+        })
+
+        fixure = TestBed.createComponent(RegistrationComponent);
+        component = fixure.componentInstance;
+        userService = TestBed.get(UserService)
+
     })
-    .compileComponents();
-  }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RegistrationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    it("name invalid when empty",()=>{
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+        expect(component.name).toBeFalsy();
+
+    })
+
+    it("email invalid when empty",()=>{
+
+        expect(component.email).toBeFalsy();
+
+    })
+
+    it("password invalid when empty",()=>{
+
+        expect(component.password).toBeFalsy();
+
+    })
+
+
 });

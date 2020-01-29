@@ -4,7 +4,8 @@ import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CalenderComponent } from './dashboard/calender/calender.component';
-import { AuthGuard } from './guard/auth.guard';
+import { AuthGuard } from './services/guard/auth.guard';
+
 
 
 const routes: Routes = [
@@ -27,7 +28,6 @@ const routes: Routes = [
       }
     ]
   }
-
 ];
 
 @NgModule({
