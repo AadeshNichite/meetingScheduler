@@ -5,6 +5,7 @@ module.exports = function(req,res,next){
 
     //Get token from header
     const token = req.get('Authorization')
+    
     //check token present or not
     if(!token){
         return res.status(401).json({msg:"No token"})

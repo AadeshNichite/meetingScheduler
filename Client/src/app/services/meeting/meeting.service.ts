@@ -3,14 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 interface meetingData {
-
   id:number,
   title:String,
   start:String,
   end:String
-
 }
-
 @Injectable({
   providedIn: 'root'
 })

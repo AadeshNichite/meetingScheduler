@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
   }
   
   checkLogin(email,password){
-    console.log(email,password)
     if(email && password){
       this._userService.checkUserLogin({email,password})
       .subscribe(data=>{

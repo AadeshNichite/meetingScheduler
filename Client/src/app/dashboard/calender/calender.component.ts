@@ -20,6 +20,7 @@ export class CalenderComponent implements OnInit {
   clickedDate;
   values:any[];
   eventToUpdate:any[];
+  tempArray:any[];
   constructor(private router: Router,private http : HttpClient,
   private _userService: UserService,private _meetingService : MeetingService) {}
 
@@ -49,13 +50,14 @@ export class CalenderComponent implements OnInit {
         return args.date.toDateString() == el.start.toDateString()
       })
       if(this.values.length>0){
-        document.getElementById
         $('#updateEvent').show();
+        $('.container').addClass('myClass');
         $('#addEvent').hide();
         $('#updateMeetingBody').hide();
       }
       else{
         $('#updateEvent').hide();
+        $('.container').addClass('myClass');
         $('#addEvent').show();
         $('#updateMeetingBody').hide();
       }
@@ -67,6 +69,7 @@ export class CalenderComponent implements OnInit {
     $('#addEvent').hide();
     $('#updateEvent').hide();
     $('#updateMeetingBody').hide();
+    $('.container').removeClass('myClass');
   }
 
   // This method is called to open the modal for add meeting modal. 
@@ -91,20 +94,26 @@ export class CalenderComponent implements OnInit {
     $('#addEvent').hide();
     $('#updateEvent').hide();
     $('#updateMeetingBody').show();
+    console.log(this.calendarEvents);
+    
+  
     if(meetingNumber && title && start && end){
       let strating = this.stringToDateConvert(start);
       let endTime = this.stringToDateConvert(end);
+      this.tempArray = this.calendarEvents.find(function (el){
+        return el.start.toDateString() == strating.toDateString();
+      })
       this._meetingService.updateMeetingData({meetingNumber,title,strating,endTime})
       .subscribe(data=>{
-        location.reload()
+        // location.reload()
       },error =>{
           $('.modal-body').text(error.error.errors[0].msg);
           $('.modal').show();
         }
-      );  
+      ); 
     }
     else{
-      alert('Provide All Fields')
+      alert('Provide all fields..')
     }
   }
 

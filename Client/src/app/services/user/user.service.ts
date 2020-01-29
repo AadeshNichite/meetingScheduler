@@ -2,18 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 interface userData {
   id:Number,
   name:String,
   email:String
 }
-
 interface loginData {
-
     email:string,
     password:String
-
 }
 
 @Injectable()

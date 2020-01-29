@@ -6,8 +6,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CalenderComponent } from './dashboard/calender/calender.component';
 import { AuthGuard } from './services/guard/auth.guard';
 
-
-
 const routes: Routes = [
   { 
     path: 'register',  

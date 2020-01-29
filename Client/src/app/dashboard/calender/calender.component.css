@@ -1,10 +1,7 @@
-.bg-image {
-    
-    /* Add the blur effect */
-    filter: blur(8px);
-    -webkit-filter: blur(8px);
-    
-    /* Full height */
-    height: 100%; 
-    
-  }
+.myClass{
+    -webkit-filter: blur(4px);
+    -moz-filter: blur(4px);
+    -o-filter: blur(4px);
+    -ms-filter: blur(4px);
+    filter: blur(4px);
+}
