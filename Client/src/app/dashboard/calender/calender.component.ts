@@ -1,5 +1,7 @@
 import {Component, OnInit } from '@angular/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import dayGridWeek from '@fullcalendar/daygrid';
+import dayGridDay from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Router } from '@angular/router';
 import * as $ from 'jquery';
@@ -15,7 +17,7 @@ import { MeetingService } from 'src/app/services/meeting/meeting.service';
 export class CalenderComponent implements OnInit {
 
   //Global variables to store the data like clicked date,eventToUpdate,calenderEvents.
-  calendarPlugins = [dayGridPlugin,interactionPlugin];
+  calendarPlugins = [dayGridPlugin,interactionPlugin,dayGridWeek,dayGridDay];
   calendarEvents : any[]= [];
   clickedDate;
   values:any[];
@@ -105,7 +107,7 @@ export class CalenderComponent implements OnInit {
       })
       this._meetingService.updateMeetingData({meetingNumber,title,strating,endTime})
       .subscribe(data=>{
-        // location.reload()
+        location.reload()
       },error =>{
           $('.modal-body').text(error.error.errors[0].msg);
           $('.modal').show();

@@ -47,11 +47,9 @@ router.post(
             let meet=meeting.meetings;
 
             let meetingNoToUpdate = meet.find(meetingNoToUpdate =>{
-                console.log(meetingNoToUpdate.id,req.body.meetingNumber)
                 return meetingNoToUpdate.id == req.body.meetingNumber;
             }) 
 
-            console.log(meetingNoToUpdate)
             const index = meet.indexOf(meetingNoToUpdate);
 
             meet.splice(index,1);
@@ -79,7 +77,6 @@ router.post(
         }
 
     } catch(err) {
-            console.error(err);
             res.status(500).send('Server Error');
         }
     }
@@ -139,7 +136,6 @@ router.post(
             }
 
         } catch(err){
-            console.error(err);
             res.status(500).send('Server Error');
         }
     }
@@ -167,11 +163,10 @@ router.post('/meeting',auth, async (req,res) => {
         // const index = meet.indexOf(meetingNumberToDelete);
 
         const index = meet.indexOf(meetingNumberToDelete);
-        console.log(index);
         if (index > -1) {
             meet.splice(index, 1);
         }
-        console.log(meet)
+
         //update
         meetingInfo = await meetingModel.findOneAndUpdate(
             { meetingNo : req.user.id },
@@ -198,7 +193,6 @@ router.get('/',auth, async (req,res) => {
         let meeting = await meetingModel.findOne({"meetingNo":req.user.id});
         res.json(meeting.meetings);
     } catch(err){
-
         res.send("Server error");
     }
 

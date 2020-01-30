@@ -12,12 +12,14 @@ import * as $ from 'jquery';
 import { AuthInterceptor } from './services/interceptor/auth.interceptor';
 import { UserService } from './services/user/user.service';
 import { MeetingService } from './services/meeting/meeting.service';
+import { EventAddModaleComponent } from './dashboard/event-add-modale/event-add-modale.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
-    HeaderComponent
+    HeaderComponent,
+    EventAddModaleComponent
   ],
   imports: [
     BrowserModule,
