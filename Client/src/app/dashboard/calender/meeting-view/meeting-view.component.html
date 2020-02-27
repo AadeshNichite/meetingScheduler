@@ -1,0 +1,27 @@
+<app-header></app-header>
+<hr>
+<table class="table table-bordered table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Start</th>
+        <th scope="col">End</th>
+        <th scope="col">Organiser</th>
+        <th scope="col" colspan="2">Attendees</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let value of tempMeetArray">
+        <td>{{value.title}}</td>
+        <td>{{value.Start | date: 'medium'}}</td>
+        <td>{{value.End | date: 'medium'}}</td>
+        <td>{{value.creatorOfMeeting.name}}</td>
+        <td *ngFor="let val of value.peopleForThisMeeting">
+            <tr>
+                {{val.name}}
+            </tr>
+        </td>
+        <!-- <td><button type="button" class="btn btn-primary">Join</button></td> -->
+      </tr>
+    </tbody>
+</table>

@@ -5,6 +5,7 @@ const bcrypt =require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Profile = require('../../models/profile');
 const config =require('config');
+const auth = require('../../middleware/auth');
 
 //@route    POST api/users
 //@desc     Register User
@@ -22,7 +23,7 @@ router.post(
         if(!errors.isEmpty()){
             return res.status(400).json({errors: errors.array()});
         }    
-        const{name, email, password}=req.body;
+        const{ name, email, password,meetingsCreatedByHim}=req.body;
 
         try{
 
@@ -36,7 +37,8 @@ router.post(
             user = new Profile({
                 name,
                 email,
-                password
+                password,
+                meetingsCreatedByHim
             })
 
             console.log("here")
@@ -72,5 +74,19 @@ router.post(
 
     }
 );
+
+//@route    GET api/users
+//@desc     Find all meetings using Token value
+//@access   public
+router.get('/',auth, async (req,res) => {
+   
+    try{
+        let user = await Profile.find({ _id: { $ne: req.user.id } }).select('-password');
+        res.json(user);
+    } catch(err){
+        res.send("Server error");
+    }
+
+});
 
 module.exports = router;

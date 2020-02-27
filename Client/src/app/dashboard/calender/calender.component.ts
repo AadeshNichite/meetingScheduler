@@ -1,4 +1,4 @@
-import {Component, OnInit } from '@angular/core';
+import {Component, OnInit, NgZone } from '@angular/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import dayGridWeek from '@fullcalendar/daygrid';
 import dayGridDay from '@fullcalendar/daygrid';
@@ -8,6 +8,7 @@ import * as $ from 'jquery';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/services/user/user.service';
 import { MeetingService } from 'src/app/services/meeting/meeting.service';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-calender',
@@ -23,28 +24,68 @@ export class CalenderComponent implements OnInit {
   values:any[];
   eventToUpdate:any[];
   tempArray:any[];
-  constructor(private router: Router,private http : HttpClient,
-  private _userService: UserService,private _meetingService : MeetingService) {}
+  disabled = false;
+  showFilter = false;
+  limitSelection = false;
+  userData : any =[];
+  selectedItems = [];
+  dropdownSettings = {};
+
+  constructor(private router: Router,private http : HttpClient,private _ngZone: NgZone,
+  private _userService: UserService,private _meetingService : MeetingService) {
+  }
 
   // on initialization of page the meeting data of the logged user is get using api call.
   ngOnInit() {
+
     this._meetingService.getMeetingData()
     .subscribe(data => {
-      let arr=[]
+      let arr=[];
+      console.log(data)
       data.forEach(element => {
-        element['meetingTitle'] && arr.push({
+        element['title'] && arr.push({
           id:element['_id'],
-          title: element['meetingTitle'],
-          start:new Date(element['strating']),
-          end:new Date(element['endTime'])
+          title: element['title'],
+          start:new Date(element['Start']),
+          end:new Date(element['End'])
         })
       this.calendarEvents = arr
       });
     })
+
+
+    this._userService.getAllUserIds()
+      .subscribe(userData =>{
+        this.userData = userData;
+      })
+
+      this.dropdownSettings = { 
+        singleSelection: false, 
+        idField:'_id',
+        textField:"name",
+        selectAllText:'Select All',
+        unSelectAllText:'UnSelect All',
+        enableSearchFilter: true,
+        classes:"myclass custom-class",
+        allowSearchFilter:this.showFilter
+      };  
   }
 
+  onItemSelect(item: any) {
+    this.selectedItems.push()
+  }
+  onSelectAll(items: any) {
+    this.selectedItems.push(items)
+  }
+  onItemDeSelect(item: any){
+    this.selectedItems.push();
+  }
+  onItemDeSelectAll(){
+    this.selectedItems = [];
+  }
   // when user click on to the date that event is get by this function and on the basis of the day meeting it will render the modal which is need to show.
   dayRender(args){
+
     let cell:HTMLElement = args.el;
     cell.onclick = (ev:MouseEvent)=>{
       this.clickedDate=args.el;
@@ -92,27 +133,69 @@ export class CalenderComponent implements OnInit {
   }
 
   // This method is called to open the modal for update the selected meeting data. Also it takes the the new data and send.
-  getUpdateMeetingData(meetingNumber,title,start,end){
+  getUpdateMeetingData(meetingNumber,title,starting,endTime){
+    let flag=0;
     $('#addEvent').hide();
     $('#updateEvent').hide();
     $('#updateMeetingBody').show();
-    console.log(this.calendarEvents);
-    
-  
-    if(meetingNumber && title && start && end){
-      let strating = this.stringToDateConvert(start);
-      let endTime = this.stringToDateConvert(end);
+    if(meetingNumber && title && starting && endTime){
+
+      let arr=[];
+      let index;
+      let start = this.stringToDateConvert(starting);
+      let end = this.stringToDateConvert(endTime);
+
+      // this.calendarEvents.forEach((el)=>{
+      //   if(el.id == meetingNumber){
+      //     if(el.title == title && JSON.stringify(el.start) == JSON.stringify(start) && JSON.stringify(el.end) == JSON.stringify(end)){
+      //       alert('Same Data Added');
+      //     }
+      //   }
+      // })
+
+
       this.tempArray = this.calendarEvents.find(function (el){
-        return el.start.toDateString() == strating.toDateString();
+        return el.start.toDateString() == start.toDateString();
       })
-      this._meetingService.updateMeetingData({meetingNumber,title,strating,endTime})
-      .subscribe(data=>{
-        location.reload()
-      },error =>{
-          $('.modal-body').text(error.error.errors[0].msg);
-          $('.modal').show();
-        }
-      ); 
+      let id = this.selectedItems;
+
+      // this.calendarEvents.forEach((el)=>{
+
+      //   console.log((el.start.getTime() >= start.getTime()))
+
+      //   if( el.start.getTime() == start.getTime()){
+      //     alert('Your meeting already set for this time')
+      //     flag = 1;
+      //   }
+      // })
+
+      // if(flag == 0)
+      // {      
+          this._meetingService.updateMeetingData({meetingNumber,title,start,end,id})
+          .subscribe(data=>{
+            arr.push({
+              id:data.id,
+              title: title,
+              start:start,
+              end:end
+            })
+            this.calendarEvents.forEach((el)=>{
+              if(el.id == meetingNumber){
+                index = this.calendarEvents.indexOf(el);
+              }
+            })
+            this.calendarEvents[index]=arr[0];
+            alert('Meeting Updated')
+            this.router.navigate(['dashboard']);
+            $('#updateEvent').hide();
+            $('#updateMeetingBody').hide();
+            $('.container').removeClass('myClass');
+          },error =>{
+              $('.modal-body').text(error.error.errors[0].msg);
+              $('.modal').show();
+            }
+          ); 
+      // }
     }
     else{
       alert('Provide all fields..')
@@ -120,21 +203,53 @@ export class CalenderComponent implements OnInit {
   }
 
   //This function get the added data from a form of add component and then send back to sent backend to perform further operation.
-  getAddMeetingData(meetingTitle,start,end){
-    if(meetingTitle && start && end){
-      let strating = this.stringToDateConvert(start);
-      let endTime = this.stringToDateConvert(end);
-      this._meetingService.addMeetingData({meetingTitle,strating,endTime})
-      .subscribe(data=>{
-        location.reload()
-      },error =>{
-        $('.modal-body').text(error.error.errors[0].msg);
-        }
-      );
+  getAddMeetingData(title,starting,endTime){
+    let arr=[];
+    let flag=0;
+    if(title && starting && endTime){
+      let start = this.stringToDateConvert(starting);
+      let end = this.stringToDateConvert(endTime);
+      let id = this.selectedItems;
+
+      this.calendarEvents.forEach((el)=>{
+
+        console.log(el.start,start,(JSON.stringify(el.start) <= JSON.stringify(start)),el.end,end,
+        (JSON.stringify(el.end) >= JSON.stringify(end)))
+
+        if( el.start.getTime() == start.getTime() && (JSON.stringify(el.start) <= JSON.stringify(start) && 
+        JSON.stringify(el.end) >= JSON.stringify(end))){
+          alert('Meeting already set for this time')
+          flag = 1;
+        } 
+      })
+
+      if(flag == 0)
+      {
+          this._meetingService.addMeetingData({title,start,end,id})
+          .subscribe(data=>{
+            console.log(this.calendarEvents.length)
+            arr.push({
+              id:data.id,
+              title: title,
+              start:start,
+              end:end
+            })
+            
+            this.calendarEvents.push(arr[0]);
+            alert('Meeting Added')
+            this.router.navigate(['dashboard']);
+            console.log(this.calendarEvents);
+            $('#addEvent').hide();
+            $('.container').removeClass('myClass');
+
+          },error =>{
+            $('.modal-body').text(error.error.errors[0].msg);
+            }
+          );
+      }
     }
     else {
-      alert('Provide All Fields')
-      
+      alert('Provide All Fields');
     }
   }
 
@@ -152,10 +267,23 @@ export class CalenderComponent implements OnInit {
 
   //Function to delete meeting
   deleteMeeting(meetingNumber){
-    console.log(meetingNumber)
+    let index;
     this._meetingService.deleteMeetingData({meetingNumber})
-    .subscribe(data => {
-      location.reload()
+    .subscribe(msg => {
+        if(msg.msg == "success")
+        {
+          this.calendarEvents.forEach((el)=>{
+            if(el.id == meetingNumber){
+              index = this.calendarEvents.indexOf(el);
+            }
+          })
+          console.log(this.calendarEvents)
+          this.calendarEvents.splice(index,1);
+          this.router.navigate(['dashboard']);
+          alert('Meeting Deleted')
+          $('#updateEvent').hide();
+          $('.container').removeClass('myClass');
+        }
     })
   }
 }

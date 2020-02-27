@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EventAddModaleComponent } from './event-add-modale.component';
+import { MeetingViewComponent } from './meeting-view.component';
 
-describe('EventAddModaleComponent', () => {
-  let component: EventAddModaleComponent;
-  let fixture: ComponentFixture<EventAddModaleComponent>;
+describe('MeetingViewComponent', () => {
+  let component: MeetingViewComponent;
+  let fixture: ComponentFixture<MeetingViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EventAddModaleComponent ]
+      declarations: [ MeetingViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EventAddModaleComponent);
+    fixture = TestBed.createComponent(MeetingViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

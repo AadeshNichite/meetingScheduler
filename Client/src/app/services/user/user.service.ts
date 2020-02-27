@@ -11,6 +11,9 @@ interface loginData {
     email:string,
     password:String
 }
+interface userIds {
+  id:number
+}
 
 @Injectable()
 export class UserService {
@@ -21,6 +24,9 @@ export class UserService {
 
   private addUserData_url : string = "http://localhost:8000/api/users";
   
+  private getAllUserIds_url : string = "http://localhost:8000/api/users"
+
+  private userIds : any;
 
   constructor(private http:HttpClient) { }
 
@@ -40,6 +46,10 @@ export class UserService {
 
     return this.http.post<any>(this.addUserData_url,{"name":name,"email":email,"password":password});
 
+  }
+
+  getAllUserIds():Observable<userIds[]>{
+    return this.http.get<userIds[]>(this.getAllUserIds_url);
   }
 
 }

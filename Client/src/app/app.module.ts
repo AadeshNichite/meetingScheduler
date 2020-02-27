@@ -12,14 +12,15 @@ import * as $ from 'jquery';
 import { AuthInterceptor } from './services/interceptor/auth.interceptor';
 import { UserService } from './services/user/user.service';
 import { MeetingService } from './services/meeting/meeting.service';
-import { EventAddModaleComponent } from './dashboard/event-add-modale/event-add-modale.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { MeetingViewComponent } from './dashboard/calender/meeting-view/meeting-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
     HeaderComponent,
-    EventAddModaleComponent
+    MeetingViewComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +29,9 @@ import { EventAddModaleComponent } from './dashboard/event-add-modale/event-add-
     ReactiveFormsModule,
     HttpClientModule,
     FullCalendarModule,
-    NgbModule
+    NgbModule,
+    NgMultiSelectDropDownModule.forRoot()
+
   ],
   providers: [
     AuthGuard,

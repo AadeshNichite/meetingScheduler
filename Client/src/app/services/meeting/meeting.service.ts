@@ -23,15 +23,17 @@ export class MeetingService {
 
   private updateMeetingData_url: string = "http://localhost:8000/api/meeting/updateMeeting";
 
+  private getMeetingForMe_url : string = "http://localhost:8000/api/meeting/meetingsForMe";
+
   getMeetingData():Observable<meetingData[]>{
 
     return this.http.get<meetingData[]>(this.getMeetingData_url);
 
   }
 
-  addMeetingData({meetingTitle,strating,endTime}){
+  addMeetingData({title,start,end,id}){
 
-    return this.http.post<any>(this.addMeetingData_url,{"meetingTitle":meetingTitle,"strating":strating,"endTime":endTime});
+    return this.http.post<any>(this.addMeetingData_url,{"title":title,"start":start,"end":end,"id":id});
 
   }
 
@@ -41,10 +43,14 @@ export class MeetingService {
 
   }
 
-  updateMeetingData({meetingNumber,title,strating,endTime}){
+  updateMeetingData({meetingNumber,title,start,end,id}){
 
-    return this.http.post<any>(this.updateMeetingData_url,{"meetingNumber":meetingNumber,"meetingTitle":title,"strating":strating,"endTime":endTime});
+    return this.http.post<any>(this.updateMeetingData_url,{"meetingNumber":meetingNumber,"title":title,"start":start,"end":end,"id":id});
 
+  }
+
+  getMeetingAllocatedForMe(){
+    return this.http.get<any>(this.getMeetingForMe_url);
   }
 
 }

@@ -27,8 +27,6 @@ export class RegistrationComponent implements OnInit {
 
       this.userService.addUserData(name,email,password)
       .subscribe(data=>{
-
-        console.log("POST Request is successful ", data);
         let token = data['token'];
         sessionStorage.setItem('key',token);
         this.router.navigate(['/dashboard']);

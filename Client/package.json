@@ -29,6 +29,7 @@
     "bootstrap": "^4.4.1",
     "date-fns": "^2.8.0",
     "jquery": "^3.4.1",
+    "ng-multiselect-dropdown": "^0.2.10",
     "ng2-modal": "0.0.25",
     "ng2-opd-popup": "^1.1.21",
     "observable": "^2.1.4",

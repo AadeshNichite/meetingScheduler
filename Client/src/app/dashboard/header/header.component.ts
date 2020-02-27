@@ -13,7 +13,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
  
   }
-
   // logout method which clears the session value of token and route to the login page
   logout(){
     sessionStorage.clear();

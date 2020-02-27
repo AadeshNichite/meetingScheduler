@@ -5,6 +5,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CalenderComponent } from './dashboard/calender/calender.component';
 import { AuthGuard } from './services/guard/auth.guard';
+import { MeetingViewComponent } from './dashboard/calender/meeting-view/meeting-view.component';
 
 const routes: Routes = [
   { 
@@ -14,6 +15,11 @@ const routes: Routes = [
   {
     path: '',
     component : LoginComponent
+  },
+  {
+    path: 'view',
+    canActivate:[AuthGuard],
+    component : MeetingViewComponent
   },
   {
     path:'dashboard',
